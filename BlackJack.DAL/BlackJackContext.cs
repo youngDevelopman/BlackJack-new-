@@ -11,8 +11,10 @@ namespace BlackJack.DAL
             Database.SetInitializer<BlackJackContext>(new ContextInitializer());
         }
 
-        public BlackJackContext() : base("BlackJackContext")
-        { }
+        public BlackJackContext(string connectionString)
+              : base(connectionString)
+        {
+        }
 
         public DbSet<Card> Cards { get; set; }
         public DbSet<Player> Players { get; set; }
@@ -26,7 +28,16 @@ namespace BlackJack.DAL
     {
         protected override void Seed(BlackJackContext context)
         {
-           
+            context.Cards.Add(new Card() { Suit = "Diamonds", Value = 10 });
+            context.Cards.Add(new Card() { Suit = "Spades", Value = 6 });
+            context.Cards.Add(new Card() { Suit = "Clubs", Value = 9 });
+            context.Cards.Add(new Card() { Suit = "Clubs", Value = 11 });
+
+            context.Players.Add(new Player() { Name = "Bill", Status = "Bot" });
+            context.Players.Add(new Player() { Name = "John", Status = "Bot" });
+
+            context.SaveChanges();
+            base.Seed(context);
         }
     }
 }

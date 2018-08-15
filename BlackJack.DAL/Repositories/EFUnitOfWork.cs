@@ -1,10 +1,6 @@
 ﻿using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackJack.DAL.Repositories
 {
@@ -13,6 +9,11 @@ namespace BlackJack.DAL.Repositories
         private BlackJackContext _db;
         private CardRepository _cardRepository;
         private PlayerRepository _playerRepository;
+
+        public EFUnitOfWork(string connectionString)
+        {
+            _db = new BlackJackContext(connectionString);
+        }
 
         public IPlayerRepository<Player> Players
         {
