@@ -19,8 +19,8 @@ namespace BlackJack.Controllers
 
         public ActionResult Index()
         {
-            gameSession.ConfigureGameOnStart();
-            return View();
+            var playersViewModel = gameSession.ConfigureGameOnStart();
+            return View(playersViewModel);
         }
     }
 }

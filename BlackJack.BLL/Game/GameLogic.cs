@@ -1,10 +1,5 @@
 ﻿using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackJack.BLL.Game
 {
@@ -12,8 +7,19 @@ namespace BlackJack.BLL.Game
     {
         internal static void GiveCardsOnStart(IUnitOfWork database)
         {
-            var playersList = database.Players.GetAll();
-            var cardsList = database.Cards.GetAll();
+            var playersArray = database.Players.GetAll().ToList();
+            var cardsList = database.Cards.GetAll().ToList();
+
+            int cardCount = 0;
+            for (int i = 0; i < playersArray.Count; i++)
+            {
+                database.Players.AddCard(playersArray[i], cardsList[cardCount]);
+                cardCount++;
+                if(cardCount >= cardsList.Count)
+                {
+                    cardCount = 0;
+                }
+            }
         }
     }
 }

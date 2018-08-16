@@ -10,6 +10,7 @@ namespace BlackJack.DAL.Interfaces
     public interface IPlayerRepository<T> : IRepository<T> where T : class
     {
         void AddCard(Player player, Card card);
+        IEnumerable<Card> GetAllCardsFromPlayer(int id);
     }
     
 }

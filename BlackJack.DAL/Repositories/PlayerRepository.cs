@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackJack.DAL.Repositories
 {
@@ -65,7 +63,6 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<Player> GetAll()
         {
-
             var playersList = _db.Players;
             return playersList;
         }
@@ -75,6 +72,20 @@ namespace BlackJack.DAL.Repositories
             _db.Entry(player).State = EntityState.Modified;
             _db.SaveChanges();
 
+        }
+
+        public IEnumerable<Card> GetAllCardsFromPlayer(int id)
+        {
+            var playerCardsList = _db.PlayersCards.Where(p => p.PlayerId == id).ToList();
+            List<Card> cardList = new List<Card>();
+
+            foreach (var item in playerCardsList.ToList())
+            {
+                Card card = _db.Cards.Find(item.CardId);
+                cardList.Add(card);
+            }
+
+            return cardList;
         }
     }
 }

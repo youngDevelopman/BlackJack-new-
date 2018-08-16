@@ -1,9 +1,8 @@
-﻿using BlackJack.DAL.Interfaces;
-using System;
+﻿using BlackJack.BLL.ViewModels;
+using BlackJack.DAL.Entities;
+using BlackJack.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlackJack.BLL.Game
 {
@@ -16,9 +15,23 @@ namespace BlackJack.BLL.Game
             _database = uow;
         }
 
-        public void ConfigureGameOnStart()
+        public List<PlayerViewModel> ConfigureGameOnStart()
         {
             GameLogic.GiveCardsOnStart(_database);
+            var playersList = _database.Players.GetAll().ToList();
+
+            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
+
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                var currentPlayer = playersList.ElementAt(i);
+                var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
+
+                var playerVM = Mapper.Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
+                playerViewModels.Add(playerVM);
+            }
+
+            return playerViewModels;
         }
 
         
