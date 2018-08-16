@@ -20,6 +20,24 @@ namespace BlackJack.BLL.Game
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
             _gameLogic.GiveCardsOnStart();
+
+            var playerViewModels = GetPlayerViewModels();
+
+            return playerViewModels;
+        }
+
+        public List<PlayerViewModel> GiveCards()
+        {
+            _gameLogic.GiveCards();
+
+            var playerViewModels = GetPlayerViewModels();
+
+            return playerViewModels;
+        }
+
+
+        private List<PlayerViewModel> GetPlayerViewModels()
+        {
             var playersList = _database.Players.GetAll().ToList();
 
             List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();

@@ -3,29 +3,11 @@
   ViewBag.Title = "GameSession";
 }
 <h2>Black Jack</h2>
-<table id="playerTable" class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Count</th>
-    </tr>
-  </thead>
-  <tbody>
 
-    @foreach (var p in Model)
+<div id="playerTable">
+  @Html.Partial("_PlayersTable", Model);
+</div>
 
-    {
-
-    <tr>
-      <td>@p.Name</td>
-      <td>@p.Status</td>
-      <td>@p.Count</td>
-    </tr>
-
-    }
-  </tbody>
-</table>
 @using (Ajax.BeginForm("DrawCard", new AjaxOptions { UpdateTargetId = "playerTable" }))
 {
   <input type="submit" value="Draw" />

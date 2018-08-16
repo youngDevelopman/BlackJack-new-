@@ -22,5 +22,12 @@ namespace BlackJack.Controllers
             var playersViewModel = gameSession.ConfigureGameOnStart();
             return View(playersViewModel);
         }
+
+        public ActionResult DrawCard()
+        {
+            var playersViewModelList = gameSession.GiveCards();
+
+            return View("Index", playersViewModelList);   
+        }
     }
 }
