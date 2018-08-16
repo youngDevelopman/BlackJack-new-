@@ -87,5 +87,11 @@ namespace BlackJack.DAL.Repositories
 
             return cardList;
         }
+
+        public IEnumerable<int> GetCardsIdInDeck()
+        {
+            var cardList = _db.PlayersCards.Select(p => p.CardId);
+            return cardList;
+        }
     }
 }

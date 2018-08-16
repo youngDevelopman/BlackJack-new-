@@ -11,6 +11,7 @@ namespace BlackJack.DAL.Interfaces
     {
         void AddCard(Player player, Card card);
         IEnumerable<Card> GetAllCardsFromPlayer(int id);
+        IEnumerable<int> GetCardsIdInDeck();
     }
     
 }

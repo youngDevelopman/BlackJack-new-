@@ -12,6 +12,7 @@ namespace BlackJack.Util
         public override void Load()
         {
             Bind<GameSession>().ToSelf();
+            Bind<GameLogic>().ToSelf();
         }
     }
 }

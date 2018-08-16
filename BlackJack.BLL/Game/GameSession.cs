@@ -9,15 +9,17 @@ namespace BlackJack.BLL.Game
     public class GameSession
     {
         IUnitOfWork _database { get; set; }
-        
-        public GameSession(IUnitOfWork uow)
+        GameLogic _gameLogic;
+
+        public GameSession(IUnitOfWork uow, GameLogic gameLogic)
         {
             _database = uow;
+            _gameLogic = gameLogic;
         }
 
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
-            GameLogic.GiveCardsOnStart(_database);
+            _gameLogic.GiveCardsOnStart();
             var playersList = _database.Players.GetAll().ToList();
 
             List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
