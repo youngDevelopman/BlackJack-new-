@@ -34,7 +34,7 @@ namespace BlackJack.BLL.Game
 
         private  bool CheckUniqueCardId(int id)
         {
-            var cardIds = _database.Players.GetCardsIdInDeck();
+            var cardIds = _database.Players.GetCardsIdInDeck().ToList();
             bool isUnique = !cardIds.Contains(id);
 
             return isUnique;
@@ -56,7 +56,7 @@ namespace BlackJack.BLL.Game
 
                     if (CheckUniqueCardId(randomCardId))
                     {
-                        _database.Players.AddCard(playersArray[i], cardsList[randomCardId]);
+                        _database.Players.AddCard(playersArray[i], cardsList[randomCardId - 1]);
                         isNotOver = false;
                     }
 
