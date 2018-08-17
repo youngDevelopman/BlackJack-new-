@@ -25,9 +25,14 @@ namespace BlackJack.Controllers
 
         public ActionResult DrawCard()
         {
-            var playersViewModelList = gameSession.GiveCards();
+            if (gameSession.CheckIfGameEnded())
+            {
+                return View("Winner");
+            }
 
-            return View("Index", playersViewModelList);   
+            var playersViewModelList = gameSession.GiveCards();
+            return View("Index", playersViewModelList);
+
         }
     }
 }

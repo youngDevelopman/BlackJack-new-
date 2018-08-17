@@ -28,8 +28,8 @@ namespace BlackJack.BLL.Game
 
         public List<PlayerViewModel> GiveCards()
         {
-            _gameLogic.GiveCards();
 
+            _gameLogic.GiveCardsToAllPlayers();
             var playerViewModels = GetPlayerViewModels();
 
             return playerViewModels;
@@ -54,6 +54,42 @@ namespace BlackJack.BLL.Game
             return playerViewModels;
         }
 
-        
+        public bool CheckIfGameEnded()
+        {
+            // Conditions for ending the game:
+
+            // 1 If actual player's score more or equals 21
+
+            // 2 If all players have more than 21
+
+            // 3 If actual player click the 'stand' button
+
+            bool isGameEnded = false;
+            var playersList = _database.Players.GetAll().ToArray();
+            var botsList = playersList.Where(p => !(p.Status == "Player"));
+            var actualPlayer = playersList.Where(p => p.Status == "Player").SingleOrDefault();
+
+            List<int> botsCount = new List<int>();
+
+            // Checking whether all bots have count more than 21
+            foreach (var b in botsList)
+            {
+                botsCount.Add(_database.Players.GetAllCardsFromPlayer(b.Id).Sum(c => c.Value));
+            }
+
+            isGameEnded = botsCount.TrueForAll(c => c > 21);
+
+            if (isGameEnded)
+            {
+                return isGameEnded;
+            }
+            else
+            {
+                var actualPlayerCount = _database.Players.GetAllCardsFromPlayer(actualPlayer.Id).Sum(c => c.Value);
+                isGameEnded = (actualPlayerCount >= 21) ? true : false;
+            }
+
+            return isGameEnded;
+        }
     }
 }

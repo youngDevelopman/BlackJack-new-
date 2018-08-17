@@ -1,6 +1,7 @@
 ﻿using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BlackJack.BLL.Game
@@ -27,9 +28,9 @@ namespace BlackJack.BLL.Game
             var playersArray = _database.Players.GetAll().ToList();
             var cardsList = _database.Cards.GetAll().ToList();
 
-            GiveCards();
-            GiveCards();
-            
+            GiveCardsToAllPlayers();
+            GiveCardsToAllPlayers();
+
         }
 
         private  bool CheckUniqueCardId(int id)
@@ -40,29 +41,49 @@ namespace BlackJack.BLL.Game
             return isUnique;
         }
         
-        public  void GiveCards()
+        public  void GiveCardsToAllPlayers()
         {
             var playersArray = _database.Players.GetAll().ToList();
             var cardsList = _database.Cards.GetAll().ToList();
 
             for (int i = 0; i < playersArray.Count; i++)
             {
-                bool isNotOver = true;
+                var currentPlayer = playersArray[i];
+                var currentPlayerCount = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id).Sum(c => c.Value);
 
-                do
+                if ((currentPlayer.Status == "Bot" || currentPlayer.Status == "Dealer")
+                    && currentPlayerCount <= 17)
                 {
+                    GiveCards(currentPlayer, cardsList);
+                }
 
-                    int randomCardId = random.Next(1, cardsList.Count);
+                else if(currentPlayer.Status == "Player" && currentPlayerCount < 21)
+                {
+                    GiveCards(currentPlayer, cardsList);
+                }
 
-                    if (CheckUniqueCardId(randomCardId))
-                    {
-                        _database.Players.AddCard(playersArray[i], cardsList[randomCardId - 1]);
-                        isNotOver = false;
-                    }
-
-                } while (isNotOver);
-                        
             }
         }
+
+        private void GiveCards(Player player, List<Card> cardsList)
+        {
+
+            bool isNotOver = true;
+
+            do
+            {
+
+                int randomCardId = random.Next(1, cardsList.Count);
+
+                if (CheckUniqueCardId(randomCardId))
+                {
+                    _database.Players.AddCard(player, cardsList[randomCardId - 1]);
+                    isNotOver = false;
+                }
+
+            } while (isNotOver);
+        }
+
+        
     }
 }
