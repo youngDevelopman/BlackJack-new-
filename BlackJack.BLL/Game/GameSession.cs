@@ -1,4 +1,5 @@
-﻿using BlackJack.BLL.ViewModels;
+﻿using BlackJack.BLL.Mapper;
+using BlackJack.BLL.ViewModels;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace BlackJack.BLL.Game
                 var currentPlayer = playersList.ElementAt(i);
                 var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
 
-                var playerVM = Mapper.Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
+                var playerVM = Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
                 playerViewModels.Add(playerVM);
             }
 
@@ -90,6 +91,30 @@ namespace BlackJack.BLL.Game
             }
 
             return isGameEnded;
+        }
+
+        public List<PlayerViewModel> DefineWinners()
+        {
+            var players = _database.Players.GetAll().ToList();
+            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
+           
+            foreach (var p in players)
+            {
+                int currentPlayerCount = _database.Players.GetAllCardsFromPlayer(p.Id).Sum(c => c.Value);
+
+                playerViewModels.Add(new PlayerViewModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Status = p.Status,
+                    Count = currentPlayerCount
+                });
+            }
+
+            int maxCount = playerViewModels.Where(p => p.Count <= 21).ToList().Max(p => p.Count);
+            var winnerList = playerViewModels.Where(p => p.Count == maxCount).ToList();
+
+            return winnerList;
         }
     }
 }

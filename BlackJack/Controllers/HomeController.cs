@@ -27,7 +27,8 @@ namespace BlackJack.Controllers
         {
             if (gameSession.CheckIfGameEnded())
             {
-                return View("Winner");
+                var winnerList = gameSession.DefineWinners();
+                return View("Winner",winnerList);
             }
 
             var playersViewModelList = gameSession.GiveCards();
