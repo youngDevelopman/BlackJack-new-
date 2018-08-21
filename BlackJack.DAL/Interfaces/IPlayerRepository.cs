@@ -13,6 +13,7 @@ namespace BlackJack.DAL.Interfaces
         IEnumerable<Card> GetAllCardsFromPlayer(int id);
         IEnumerable<int> GetCardsIdInDeck();
         void ClearPlayerCards();
+        void RemoveAllPlayers();
     }
     
 }

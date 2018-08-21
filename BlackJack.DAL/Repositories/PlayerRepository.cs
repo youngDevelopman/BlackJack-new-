@@ -99,5 +99,13 @@ namespace BlackJack.DAL.Repositories
             _db.PlayersCards.RemoveRange(_db.PlayersCards);
             _db.SaveChanges();
         }
+
+        public void RemoveAllPlayers()
+        {
+            _db.Players.RemoveRange(_db.Players.ToList());
+            _db.SaveChanges();
+        }
+
+        
     }
 }

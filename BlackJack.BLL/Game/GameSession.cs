@@ -24,6 +24,7 @@ namespace BlackJack.BLL.Game
 
         public void RegisterPlayers(UserGameOptions userGameOptions)
         {
+            _database.Players.RemoveAllPlayers();
             List<string> botNames = new List<string>() { "Bill", "John", "Trevor", "Mike", "Frank" };
 
             Player user = new Player()

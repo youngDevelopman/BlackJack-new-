@@ -23,11 +23,17 @@ namespace BlackJack.Controllers
         public ActionResult Index(UserGameOptions gameOptions)
         {
             gameSession.RegisterPlayers(gameOptions);
-            var playersViewModel = gameSession.ConfigureGameOnStart();
-            return View(playersViewModel);
+
+            return RedirectToAction("StartNewRound");
         }
 
-        [HttpPost]
+        
+        public ActionResult StartNewRound()
+        {
+            var playersViewModel = gameSession.ConfigureGameOnStart();
+            return View("Index", playersViewModel);
+        }
+
         public ActionResult DrawCard()
         {
             if (gameSession.CheckIfGameEnded())
