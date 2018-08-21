@@ -19,7 +19,7 @@ namespace BlackJack.DAL
         public DbSet<Card> Cards { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerCard> PlayersCards { get; set; }
-        public DbSet<GameHistory> GameHistory { get; set; }
+        public DbSet<GameHistory> GameHistories { get; set; }
 
 
     }

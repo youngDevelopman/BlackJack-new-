@@ -40,7 +40,7 @@ namespace BlackJack.DAL.Repositories
             }
         }
 
-        public IRepository<GameHistory> GameHistory
+        public IRepository<GameHistory> GameHistories
         {
             get
             {

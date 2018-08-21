@@ -11,7 +11,7 @@ namespace BlackJack.DAL.Interfaces
     {
         IPlayerRepository<Player> Players { get; }
         IRepository<Card> Cards { get;  }
-        IRepository<GameHistory> GameHistory { get; }
+        IRepository<GameHistory> GameHistories { get; }
         void Save();
     }
 }

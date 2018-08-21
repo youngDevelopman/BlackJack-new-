@@ -18,13 +18,13 @@ namespace BlackJack.DAL.Repositories
 
         public void Create(GameHistory roundHistory)
         {
-            _db.GameHistory.Add(roundHistory);
+            _db.GameHistories.Add(roundHistory);
             _db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var round = _db.GameHistory.Find(id);
+            var round = _db.GameHistories.Find(id);
 
             if(round == null)
             {
@@ -34,19 +34,19 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<GameHistory> Find(Func<GameHistory, bool> predicate)
         {
-            var roundList = _db.GameHistory.Where(predicate);
+            var roundList = _db.GameHistories.Where(predicate);
             return roundList;
         }
 
         public GameHistory Get(int id)
         {
-           var gameHistory = _db.GameHistory.Find(id);
+           var gameHistory = _db.GameHistories.Find(id);
            return gameHistory;
         }
 
         public IEnumerable<GameHistory> GetAll()
         {
-            var gameHistoryList = _db.GameHistory.ToList();
+            var gameHistoryList = _db.GameHistories.ToList();
             return gameHistoryList;
         }
 

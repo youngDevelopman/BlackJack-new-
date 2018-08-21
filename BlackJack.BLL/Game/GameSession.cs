@@ -2,6 +2,7 @@
 using BlackJack.BLL.ViewModels;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,8 @@ namespace BlackJack.BLL.Game
     {
         IUnitOfWork _database { get; set; }
         GameLogic _gameLogic;
+        static int roundId;
+
 
         public GameSession(IUnitOfWork uow, GameLogic gameLogic)
         {
@@ -20,7 +23,9 @@ namespace BlackJack.BLL.Game
 
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
+            roundId++;
 
+            _database.Players.ClearPlayerCards();
             _gameLogic.GiveCardsOnStart();
 
             var playerViewModels = GetPlayerViewModels();
@@ -33,25 +38,6 @@ namespace BlackJack.BLL.Game
 
             _gameLogic.GiveCardsToAllPlayers();
             var playerViewModels = GetPlayerViewModels();
-
-            return playerViewModels;
-        }
-
-
-        private List<PlayerViewModel> GetPlayerViewModels()
-        {
-            var playersList = _database.Players.GetAll().ToList();
-
-            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
-
-            for (int i = 0; i < playersList.Count; i++)
-            {
-                var currentPlayer = playersList.ElementAt(i);
-                var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
-
-                var playerVM = Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
-                playerViewModels.Add(playerVM);
-            }
 
             return playerViewModels;
         }
@@ -115,7 +101,41 @@ namespace BlackJack.BLL.Game
             int maxCount = playerViewModels.Where(p => p.Count <= 21).ToList().Max(p => p.Count);
             var winnerList = playerViewModels.Where(p => p.Count == maxCount).ToList();
 
+            foreach(var winner in winnerList)
+            {
+                GameHistory currentWinner = new GameHistory()
+                {
+                    WinnerId = winner.Id,
+                    RoundId = roundId,
+                    WinnerName = winner.Name,
+                    WinnerScore = winner.Count,
+                    Date = DateTime.Now
+                };
+
+                _database.GameHistories.Create(currentWinner);
+            }
+           
+            
             return winnerList;
+        }
+
+
+        private List<PlayerViewModel> GetPlayerViewModels()
+        {
+            var playersList = _database.Players.GetAll().ToList();
+
+            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
+
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                var currentPlayer = playersList.ElementAt(i);
+                var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
+
+                var playerVM = Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
+                playerViewModels.Add(playerVM);
+            }
+
+            return playerViewModels;
         }
 
 
