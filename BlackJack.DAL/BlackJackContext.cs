@@ -86,14 +86,6 @@ namespace BlackJack.DAL
             context.Cards.Add(new Card() { Suit = "Clubs", Rank = "King", Value = 10 });
             context.Cards.Add(new Card() { Suit = "Clubs", Rank = "Ace", Value = 11 });
 
-
-            //Initializing players
-            context.Players.Add(new Player() { Name = "Bill", Status = "Bot" });
-            context.Players.Add(new Player() { Name = "John", Status = "Bot" });
-            context.Players.Add(new Player() { Name = "Trevor", Status = "Bot" });
-            context.Players.Add(new Player() { Name = "Dealer", Status = "Dealer" });
-            context.Players.Add(new Player() { Name = "You", Status = "Player" });
-
             context.SaveChanges();
             base.Seed(context);
         }

@@ -1,4 +1,5 @@
-﻿using BlackJack.BLL.Mapper;
+﻿using BlackJack.BLL.GameOptions;
+using BlackJack.BLL.Mapper;
 using BlackJack.BLL.ViewModels;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
@@ -21,6 +22,38 @@ namespace BlackJack.BLL.Game
             _gameLogic = gameLogic;
         }
 
+        public void RegisterPlayers(UserGameOptions userGameOptions)
+        {
+            List<string> botNames = new List<string>() { "Bill", "John", "Trevor", "Mike", "Frank" };
+
+            Player user = new Player()
+            {
+                Name = userGameOptions.PlayerName,
+                Status = "Player"
+            };
+
+            Player dealer = new Player()
+            {
+                Name = "Jack",
+                Status = "Dealer"
+            };
+
+            _database.Players.Create(user);
+            _database.Players.Create(dealer);
+
+            for (int i = 0; i < userGameOptions.NumberOfPlayers; i++)
+            {
+                Player bot = new Player()
+                {
+                    Name = botNames[i],
+                    Status = "Bot"
+                };
+
+                _database.Players.Create(bot);
+            }
+
+            
+        }
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
             roundId++;

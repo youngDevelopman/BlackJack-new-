@@ -1,0 +1,22 @@
+﻿@model BlackJack.BLL.GameOptions.UserGameOptions
+
+@{
+  ViewBag.Title = "GameStartMenu";
+}
+
+<h2>Choose number of bots and your nickname</h2>
+
+@using (Html.BeginForm("Index", "Home"))
+{
+  <div class="form-group">
+    @Html.LabelFor(m => m.NumberOfPlayers)
+    @Html.DropDownListFor(m => m.NumberOfPlayers, new SelectList(new int[] { 1, 2, 3, 4, 5 }), "Select number of players", new { @class = "form-control" })
+  </div>
+  <div class="form-group">
+    @Html.LabelFor(m => m.PlayerName)
+    @Html.TextBoxFor(m => m.PlayerName, new { @class = "form-control" })
+  </div>
+
+  <button type="submit" class="btn btn-primary ">Save and start the game</button>
+}
+
