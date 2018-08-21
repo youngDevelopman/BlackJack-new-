@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BlackJack.BLL.ViewModels.GameHistoryViewModel>
+
+@{
+    ViewBag.Title = "CheckGameHistory";
+}
+
+<h2> Game history </h2>
+
+
+<table  class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Round Id</th>
+      <th>Winner Id</th>
+      <th>Winner Name</th>
+      <th>Winner Score</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    @foreach (var p in Model)
+
+    {
+
+    <tr>
+      <td>@p.RoundId</td>
+      <td>@p.WinnerId</td>
+      <td>@p.WinnerName</td>
+      <td>@p.WinnerScore</td>
+      <td>@p.Date</td>
+    </tr>
+
+    }
+  </tbody>
+</table>

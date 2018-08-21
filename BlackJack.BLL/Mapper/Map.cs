@@ -69,5 +69,25 @@ namespace BlackJack.BLL.Mapper
 
             return playerViewModel;
         }
+
+        public static List<GameHistoryViewModel> MapGameHistoryList(List<GameHistory> gameHistoryList)
+        {
+            List<GameHistoryViewModel> gameHistoryViewModels = new List<GameHistoryViewModel>();
+
+            foreach(var h in gameHistoryList)
+            {
+                GameHistoryViewModel viewModel = new GameHistoryViewModel()
+                {
+                    Date = h.Date,
+                    RoundId = h.RoundId,
+                    WinnerId = h.WinnerId,
+                    WinnerName = h.WinnerName,
+                    WinnerScore = h.WinnerScore
+                };
+                gameHistoryViewModels.Add(viewModel);
+            }
+
+            return gameHistoryViewModels;
+        }
     }
 }

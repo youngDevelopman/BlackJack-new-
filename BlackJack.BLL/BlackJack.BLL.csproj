@@ -49,6 +49,7 @@
     <Compile Include="Mapper\Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

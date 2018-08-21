@@ -40,5 +40,11 @@ namespace BlackJack.Controllers
             var winnerList = gameSession.DefineWinners();
             return View("Winner", winnerList);
         }
+
+        public ActionResult CheckGameHistory()
+        {
+            var gameHistory = gameSession.GetGameHistory();
+            return View(gameHistory);
+        }
     }
 }

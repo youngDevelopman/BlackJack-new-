@@ -1,8 +1,10 @@
-﻿using BlackJack.DAL.Entities;
+﻿using BlackJack.BLL.ViewModels;
+using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace BlackJack.BLL.Game
 {
@@ -40,7 +42,24 @@ namespace BlackJack.BLL.Game
 
             return isUnique;
         }
-        
+
+        public void SaveGameHistory(List<PlayerViewModel> winnerList, int roundId)
+        {
+            foreach (var winner in winnerList)
+            {
+                GameHistory currentWinner = new GameHistory()
+                {
+                    WinnerId = winner.Id,
+                    RoundId = roundId,
+                    WinnerName = winner.Name,
+                    WinnerScore = winner.Count,
+                    Date = DateTime.Now
+                };
+
+                _database.GameHistories.Create(currentWinner);
+            }
+        }
+
         public  void GiveCardsToAllPlayers()
         {
             var playersArray = _database.Players.GetAll().ToList();
@@ -55,11 +74,14 @@ namespace BlackJack.BLL.Game
                     && currentPlayerCount <= 17)
                 {
                     GiveCards(currentPlayer, cardsList);
+                    Thread.Sleep(100);
                 }
 
                 else if(currentPlayer.Status == "Player" && currentPlayerCount < 21)
                 {
                     GiveCards(currentPlayer, cardsList);
+                    Thread.Sleep(100);
+
                 }
 
             }

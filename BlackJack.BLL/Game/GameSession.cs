@@ -101,24 +101,12 @@ namespace BlackJack.BLL.Game
             int maxCount = playerViewModels.Where(p => p.Count <= 21).ToList().Max(p => p.Count);
             var winnerList = playerViewModels.Where(p => p.Count == maxCount).ToList();
 
-            foreach(var winner in winnerList)
-            {
-                GameHistory currentWinner = new GameHistory()
-                {
-                    WinnerId = winner.Id,
-                    RoundId = roundId,
-                    WinnerName = winner.Name,
-                    WinnerScore = winner.Count,
-                    Date = DateTime.Now
-                };
-
-                _database.GameHistories.Create(currentWinner);
-            }
-           
-            
+            _gameLogic.SaveGameHistory(winnerList, roundId);
+                       
             return winnerList;
         }
 
+        
 
         private List<PlayerViewModel> GetPlayerViewModels()
         {
@@ -138,6 +126,12 @@ namespace BlackJack.BLL.Game
             return playerViewModels;
         }
 
+        public List<GameHistoryViewModel> GetGameHistory()
+        {
+            var gameHistoryList = _database.GameHistories.GetAll();
+            var gameHistoryViewModel = Map.MapGameHistoryList(gameHistoryList as List<GameHistory>);
 
+            return gameHistoryViewModel;
+        }
     }
 }
