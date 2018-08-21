@@ -20,6 +20,7 @@ namespace BlackJack.BLL.Game
 
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
+
             _gameLogic.GiveCardsOnStart();
 
             var playerViewModels = GetPlayerViewModels();
@@ -116,5 +117,7 @@ namespace BlackJack.BLL.Game
 
             return winnerList;
         }
+
+
     }
 }

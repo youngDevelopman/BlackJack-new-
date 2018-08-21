@@ -9,7 +9,6 @@ namespace BlackJack.Controllers
 {
     public class HomeController : Controller
     {
-
         private GameSession gameSession;
 
         public HomeController(GameSession session)
@@ -34,6 +33,12 @@ namespace BlackJack.Controllers
             var playersViewModelList = gameSession.GiveCards();
             return View("Index", playersViewModelList);
 
+        }
+
+        public ActionResult Hit()
+        {
+            var winnerList = gameSession.DefineWinners();
+            return View("Winner", winnerList);
         }
     }
 }

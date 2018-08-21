@@ -10,5 +10,9 @@
 
 @using (Ajax.BeginForm("DrawCard", new AjaxOptions { UpdateTargetId = "playerTable" }))
 {
-  <input type="submit" value="Draw" />
+  <input type="submit" value="Stand" />
+}
+@using (Ajax.BeginForm("Hit", new AjaxOptions { UpdateTargetId = "playerTable" }))
+{
+  <input type="submit" value="Hit" />
 }
