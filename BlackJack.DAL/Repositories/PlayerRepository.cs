@@ -94,6 +94,9 @@ namespace BlackJack.DAL.Repositories
             return cardList;
         }
 
-         
+        public void ClearPlayerCards()
+        {
+            _db.PlayersCards.RemoveRange(_db.PlayersCards);
+        }
     }
 }

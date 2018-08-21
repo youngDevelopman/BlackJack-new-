@@ -9,6 +9,7 @@ namespace BlackJack.DAL.Repositories
         private BlackJackContext _db;
         private CardRepository _cardRepository;
         private PlayerRepository _playerRepository;
+        private GameHistoryRepository _gameHistoryRepository;
 
         public EFUnitOfWork(string connectionString)
         {
@@ -36,6 +37,18 @@ namespace BlackJack.DAL.Repositories
                     _cardRepository = new CardRepository(_db);
                 }
                 return _cardRepository;
+            }
+        }
+
+        public IRepository<GameHistory> GameHistory
+        {
+            get
+            {
+                if(_gameHistoryRepository == null)
+                {
+                    _gameHistoryRepository = new GameHistoryRepository(_db);
+                }
+                return _gameHistoryRepository;
             }
         }
 
