@@ -14,7 +14,8 @@ namespace BlackJack.BLL.Mapper
             {
                 Id = card.Id,
                 Suit = card.Suit,
-                Value = card.Value
+                Value = card.Value,
+                Rank = card.Rank
             };
 
             return cardViewModel;
@@ -82,7 +83,8 @@ namespace BlackJack.BLL.Mapper
                     RoundId = h.RoundId,
                     WinnerId = h.WinnerId,
                     WinnerName = h.WinnerName,
-                    WinnerScore = h.WinnerScore
+                    WinnerScore = h.WinnerScore,
+                    Cards = Map.MapCardsList(h.Cards)
                 };
                 gameHistoryViewModels.Add(viewModel);
             }

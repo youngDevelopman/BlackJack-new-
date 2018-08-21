@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlackJack.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,12 @@ namespace BlackJack.BLL.ViewModels
         public string Name { get; set; }
         public string Status { get; set; }
         public int Count { get; set; }
+
+        public List<Card> Cards { get; set; }
+
+        public PlayerViewModel()
+        {
+            Cards = new List<Card>();
+        }
     }
 }

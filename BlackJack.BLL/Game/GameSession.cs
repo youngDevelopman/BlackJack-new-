@@ -121,14 +121,16 @@ namespace BlackJack.BLL.Game
            
             foreach (var p in players)
             {
-                int currentPlayerCount = _database.Players.GetAllCardsFromPlayer(p.Id).Sum(c => c.Value);
+                var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(p.Id) as List<Card>;
+                int currentPlayerCount = currentPlayerCards.Sum(c => c.Value);
 
                 playerViewModels.Add(new PlayerViewModel()
                 {
                     Id = p.Id,
                     Name = p.Name,
                     Status = p.Status,
-                    Count = currentPlayerCount
+                    Count = currentPlayerCount,
+                    Cards = currentPlayerCards
                 });
             }
 

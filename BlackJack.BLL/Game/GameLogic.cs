@@ -45,19 +45,23 @@ namespace BlackJack.BLL.Game
 
         public void SaveGameHistory(List<PlayerViewModel> winnerList, int roundId)
         {
+            
             foreach (var winner in winnerList)
             {
+                var winnerCards = _database.Players.GetAllCardsFromPlayer(winner.Id) as List<Card>;
                 GameHistory currentWinner = new GameHistory()
                 {
                     WinnerId = winner.Id,
                     RoundId = roundId,
                     WinnerName = winner.Name,
                     WinnerScore = winner.Count,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    Cards = winnerCards
                 };
 
                 _database.GameHistories.Create(currentWinner);
             }
+
         }
 
         public  void GiveCardsToAllPlayers()

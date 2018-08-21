@@ -29,6 +29,13 @@
       <td>@p.WinnerName</td>
       <td>@p.WinnerScore</td>
       <td>@p.Date</td>
+      @foreach (var c in p.Cards)
+      {
+         @c.Id
+         @c.Rank
+         @c.Suit
+         @c.Value
+      }
     </tr>
 
     }

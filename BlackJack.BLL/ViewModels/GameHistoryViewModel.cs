@@ -13,5 +13,12 @@ namespace BlackJack.BLL.ViewModels
         public string WinnerName { get; set; }
         public int WinnerScore { get; set; }
         public DateTime Date { get; set; }
+
+        public List<CardViewModel> Cards { get; set; }
+
+        public GameHistoryViewModel()
+        {
+            Cards = new List<CardViewModel>();
+        }
     }
 }

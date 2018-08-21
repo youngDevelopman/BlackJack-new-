@@ -16,5 +16,12 @@ namespace BlackJack.DAL.Entities
         public string WinnerName { get; set; }
         public int WinnerScore { get; set; }
         public DateTime Date { get; set; }
+
+        public List<Card> Cards { get; set; }
+
+        public GameHistory()
+        {
+            Cards = new List<Card>();
+        }
     }
 }
