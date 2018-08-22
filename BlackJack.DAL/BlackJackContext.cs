@@ -21,7 +21,20 @@ namespace BlackJack.DAL
         public DbSet<PlayerCard> PlayersCards { get; set; }
         public DbSet<GameHistory> GameHistories { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Card>()
+                .HasMany<GameHistory>(c => c.GameHistories)
+                .WithMany(h => h.Cards)
+                .Map(ch =>
+                {
+                    ch.MapLeftKey("CardRefId");
+                    ch.MapRightKey("GameHistoryRefId");
+                    ch.ToTable("CardGameHistory");
+                });
 
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
     public class ContextInitializer : DropCreateDatabaseAlways<BlackJackContext>

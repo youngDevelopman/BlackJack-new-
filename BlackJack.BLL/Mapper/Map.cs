@@ -84,7 +84,7 @@ namespace BlackJack.BLL.Mapper
                     WinnerId = h.WinnerId,
                     WinnerName = h.WinnerName,
                     WinnerScore = h.WinnerScore,
-                    Cards = Map.MapCardsList(h.Cards)
+                    Cards = Map.MapCardsList(h.Cards as List<Card>)
                 };
                 gameHistoryViewModels.Add(viewModel);
             }

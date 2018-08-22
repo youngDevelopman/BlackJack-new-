@@ -15,6 +15,7 @@
       <th>Winner Name</th>
       <th>Winner Score</th>
       <th>Date</th>
+      <th>Cards</th>
     </tr>
   </thead>
   <tbody>
@@ -29,14 +30,18 @@
       <td>@p.WinnerName</td>
       <td>@p.WinnerScore</td>
       <td>@p.Date</td>
-      @foreach (var c in p.Cards)
-      {
-         @c.Id
-         @c.Rank
-         @c.Suit
-         @c.Value
-      }
-    </tr>
+      <td>
+        @foreach (var c in p.Cards)
+        {
+          <br>
+          <span>@c.Id</span> 
+          <span>@c.Rank</span> 
+          <span>@c.Suit</span>
+          <span>@c.Value</span>
+          <br>
+          }
+      </td>
+     </tr>
 
     }
   </tbody>

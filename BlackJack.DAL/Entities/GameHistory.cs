@@ -17,7 +17,7 @@ namespace BlackJack.DAL.Entities
         public int WinnerScore { get; set; }
         public DateTime Date { get; set; }
 
-        public List<Card> Cards { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
 
         public GameHistory()
         {
