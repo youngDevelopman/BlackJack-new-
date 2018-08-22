@@ -10,7 +10,7 @@ namespace BlackJack.BLL.Mapper
     {
         public static CardViewModel MapCards(Card card)
         {
-            CardViewModel cardViewModel = new CardViewModel()
+            var cardViewModel = new CardViewModel()
             {
                 Id = card.Id,
                 Suit = card.Suit,
@@ -24,7 +24,7 @@ namespace BlackJack.BLL.Mapper
 
         public static List<CardViewModel> MapCardsList(List<Card> cardsList)
         {
-            List<CardViewModel> cardsViewModelList = new List<CardViewModel>();
+            var cardsViewModelList = new List<CardViewModel>();
 
             for (int i = 0; i < cardsList.Count; i++)
             {
@@ -36,7 +36,7 @@ namespace BlackJack.BLL.Mapper
 
         public static PlayerViewModel MapPlayer(Player player)
         {
-            PlayerViewModel playerViewModel = new PlayerViewModel()
+            var playerViewModel = new PlayerViewModel()
             {
                 Id = player.Id,
                 Name = player.Name,
@@ -48,7 +48,7 @@ namespace BlackJack.BLL.Mapper
 
         public static List<PlayerViewModel> MapPlayersList(List<Player> playersList)
         {
-            List<PlayerViewModel> playersViewModelList = new List<PlayerViewModel>();
+            var playersViewModelList = new List<PlayerViewModel>();
 
             for (int i = 0; i < playersList.Count; i++)
             {
@@ -60,7 +60,7 @@ namespace BlackJack.BLL.Mapper
 
         public static PlayerViewModel MapCardsAndList(Player player, List<Card> cards)
         {
-            PlayerViewModel playerViewModel = new PlayerViewModel()
+            var playerViewModel = new PlayerViewModel()
             {
                 Id = player.Id,
                 Name = player.Name,
@@ -73,11 +73,11 @@ namespace BlackJack.BLL.Mapper
 
         public static List<GameHistoryViewModel> MapGameHistoryList(List<GameHistory> gameHistoryList)
         {
-            List<GameHistoryViewModel> gameHistoryViewModels = new List<GameHistoryViewModel>();
+            var gameHistoryViewModels = new List<GameHistoryViewModel>();
 
             foreach(var h in gameHistoryList)
             {
-                GameHistoryViewModel viewModel = new GameHistoryViewModel()
+                var viewModel = new GameHistoryViewModel()
                 {
                     Date = h.Date,
                     RoundId = h.RoundId,

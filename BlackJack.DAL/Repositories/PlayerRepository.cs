@@ -77,7 +77,7 @@ namespace BlackJack.DAL.Repositories
         public IEnumerable<Card> GetAllCardsFromPlayer(int id)
         {
             var playerCardsList = _db.PlayersCards.Where(p => p.PlayerId == id).ToList();
-            List<Card> cardList = new List<Card>();
+            var cardList = new List<Card>();
 
             foreach (var item in playerCardsList.ToList())
             {

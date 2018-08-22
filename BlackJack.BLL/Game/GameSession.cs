@@ -11,12 +11,11 @@ namespace BlackJack.BLL.Game
 {
     public class GameSession : IGameSession
     {
-        IUnitOfWork _database { get; set; }
-        IGameLogic _gameLogic;
+        private  IUnitOfWork _database { get; set; }
+        private  IGameLogic _gameLogic { get; set; }
         static int roundId;
 
-
-        public GameSession(IUnitOfWork uow, GameLogic gameLogic)
+        public GameSession(IUnitOfWork uow, IGameLogic gameLogic)
         {
             _database = uow;
             _gameLogic = gameLogic;
@@ -28,15 +27,16 @@ namespace BlackJack.BLL.Game
             roundId = 0;
 
             _database.Players.RemoveAllPlayers();
-            List<string> botNames = new List<string>() { "Bill", "John", "Trevor", "Mike", "Frank" };
 
-            Player user = new Player()
+            var botNames = new List<string>() { "Bill", "John", "Trevor", "Mike", "Frank" };
+
+            var user = new Player()
             {
                 Name = userGameOptions.PlayerName,
                 Status = "Player"
             };
 
-            Player dealer = new Player()
+            var dealer = new Player()
             {
                 Name = "Jack",
                 Status = "Dealer"
@@ -47,7 +47,7 @@ namespace BlackJack.BLL.Game
 
             for (int i = 0; i < userGameOptions.NumberOfPlayers; i++)
             {
-                Player bot = new Player()
+                var bot = new Player()
                 {
                     Name = botNames[i],
                     Status = "Bot"
@@ -67,7 +67,7 @@ namespace BlackJack.BLL.Game
             _database.Players.ClearPlayerCards();
             _gameLogic.GiveCardsOnStart();
 
-            var playerViewModels = GetPlayerViewModels();
+            List<PlayerViewModel> playerViewModels = GetPlayerViewModels();
 
             return playerViewModels;
         }
@@ -77,7 +77,7 @@ namespace BlackJack.BLL.Game
         {
 
             _gameLogic.GiveCardsToAllPlayers();
-            var playerViewModels = GetPlayerViewModels();
+            List<PlayerViewModel> playerViewModels = GetPlayerViewModels();
 
             return playerViewModels;
         }
@@ -94,11 +94,12 @@ namespace BlackJack.BLL.Game
             // 3 If actual player click the 'stand' button
 
             bool isGameEnded = false;
-            var playersList = _database.Players.GetAll().ToArray();
-            var botsList = playersList.Where(p => !(p.Status == "Player"));
-            var actualPlayer = playersList.Where(p => p.Status == "Player").SingleOrDefault();
 
-            List<int> botsCount = new List<int>();
+            List<Player> playersList = _database.Players.GetAll().ToList();
+            IEnumerable<Player> botsList = playersList.Where(p => !(p.Status == "Player"));
+            Player actualPlayer = playersList.Where(p => p.Status == "Player").SingleOrDefault();
+
+            var botsCount = new List<int>();
 
             // Checking whether all bots have count more than 21
             foreach (var b in botsList)
@@ -114,7 +115,7 @@ namespace BlackJack.BLL.Game
             }
             else
             {
-                var actualPlayerCount = _database.Players.GetAllCardsFromPlayer(actualPlayer.Id).Sum(c => c.Value);
+                int actualPlayerCount = _database.Players.GetAllCardsFromPlayer(actualPlayer.Id).Sum(c => c.Value);
                 isGameEnded = (actualPlayerCount >= 21) ? true : false;
             }
 
@@ -124,8 +125,8 @@ namespace BlackJack.BLL.Game
         // Returns a winners' list of player view model 
         public List<PlayerViewModel> DefineWinners()
         {
-            var players = _database.Players.GetAll().ToList();
-            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
+            List<Player> players = _database.Players.GetAll().ToList();
+            var playerViewModels = new List<PlayerViewModel>();
            
             foreach (var p in players)
             {
@@ -143,7 +144,7 @@ namespace BlackJack.BLL.Game
             }
 
             int maxCount = playerViewModels.Where(p => p.Count <= 21).ToList().Max(p => p.Count);
-            var winnerList = playerViewModels.Where(p => p.Count == maxCount).ToList();
+            List<PlayerViewModel> winnerList = playerViewModels.Where(p => p.Count == maxCount).ToList();
 
             _gameLogic.SaveGameHistory(winnerList, roundId);
                        
@@ -154,16 +155,16 @@ namespace BlackJack.BLL.Game
         // Returns list of player view model using static Map class
         private List<PlayerViewModel> GetPlayerViewModels()
         {
-            var playersList = _database.Players.GetAll().ToList();
+            List<Player> playersList = _database.Players.GetAll().ToList();
 
             List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
 
             for (int i = 0; i < playersList.Count; i++)
             {
-                var currentPlayer = playersList.ElementAt(i);
-                var currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
+                Player currentPlayer = playersList.ElementAt(i);
+                IEnumerable<Card> currentPlayerCards = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id);
 
-                var playerVM = Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
+                PlayerViewModel playerVM = Map.MapCardsAndList(currentPlayer, currentPlayerCards as List<Card>);
                 playerViewModels.Add(playerVM);
             }
 
@@ -173,8 +174,8 @@ namespace BlackJack.BLL.Game
         // Returns game history list
         public List<GameHistoryViewModel> GetGameHistory()
         {
-            var gameHistoryList = _database.GameHistories.GetAll();
-            var gameHistoryViewModel = Map.MapGameHistoryList(gameHistoryList as List<GameHistory>);
+            IEnumerable<GameHistory> gameHistoryList = _database.GameHistories.GetAll();
+            List<GameHistoryViewModel> gameHistoryViewModel = Map.MapGameHistoryList(gameHistoryList as List<GameHistory>);
 
             return gameHistoryViewModel;
         }

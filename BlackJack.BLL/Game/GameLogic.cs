@@ -29,8 +29,8 @@ namespace BlackJack.BLL.Game
         // Gives two cards for each player
         public  void GiveCardsOnStart()
         {
-            var playersArray = _database.Players.GetAll().ToList();
-            var cardsList = _database.Cards.GetAll().ToList();
+            List<Player> playersArray = _database.Players.GetAll().ToList();
+            List<Card> cardsList = _database.Cards.GetAll().ToList();
 
             GiveCardsToAllPlayers();
             GiveCardsToAllPlayers();
@@ -39,7 +39,7 @@ namespace BlackJack.BLL.Game
 
         private  bool CheckUniqueCardId(int id)
         {
-            var cardIds = _database.Players.GetCardsIdInDeck().ToList();
+            List<int> cardIds = _database.Players.GetCardsIdInDeck().ToList();
             bool isUnique = !cardIds.Contains(id);
 
             return isUnique;
@@ -70,13 +70,13 @@ namespace BlackJack.BLL.Game
         // Gives cards to all players using specified conditions
         public  void GiveCardsToAllPlayers()
         {
-            var playersArray = _database.Players.GetAll().ToList();
-            var cardsList = _database.Cards.GetAll().ToList();
+            List<Player> playersArray = _database.Players.GetAll().ToList();
+            List<Card> cardsList = _database.Cards.GetAll().ToList();
 
             for (int i = 0; i < playersArray.Count; i++)
             {
-                var currentPlayer = playersArray[i];
-                var currentPlayerCount = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id).Sum(c => c.Value);
+                Player currentPlayer = playersArray[i];
+                int currentPlayerCount = _database.Players.GetAllCardsFromPlayer(currentPlayer.Id).Sum(c => c.Value);
 
                 if ((currentPlayer.Status == "Bot" || currentPlayer.Status == "Dealer")
                     && currentPlayerCount <= 17)

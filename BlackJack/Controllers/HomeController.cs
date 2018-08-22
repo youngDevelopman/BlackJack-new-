@@ -1,16 +1,18 @@
 ﻿using BlackJack.BLL.GameOptions;
 using BlackJack.BLL.Interfaces;
+using BlackJack.BLL.ViewModels;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace BlackJack.Controllers
 {
     public class HomeController : Controller
     {
-        private IGameSession gameSession;
+        private readonly IGameSession _gameSession;
 
         public HomeController(IGameSession session)
         {
-            gameSession = session;
+            _gameSession = session;
         }
 
         [HttpGet]
@@ -22,39 +24,39 @@ namespace BlackJack.Controllers
         [HttpPost]
         public ActionResult Index(UserGameOptions gameOptions)
         {
-            gameSession.RegisterPlayers(gameOptions);
+            _gameSession.RegisterPlayers(gameOptions);
 
             return RedirectToAction("StartNewRound");
         }
 
-        
+
         public ActionResult StartNewRound()
         {
-            var playersViewModel = gameSession.ConfigureGameOnStart();
+            List<PlayerViewModel> playersViewModel = _gameSession.ConfigureGameOnStart();
             return View("Index", playersViewModel);
         }
 
         public ActionResult DrawCard()
         {
-            if (gameSession.CheckIfGameEnded())
+            if (_gameSession.CheckIfGameEnded())
             {
                 return JavaScript("window.location = '" + Url.Action("Hit", "Home") + "'");
             }
 
-            var playersViewModelList = gameSession.GiveCards();
+            List<PlayerViewModel> playersViewModelList = _gameSession.GiveCards();
             return PartialView("_PlayersTable", playersViewModelList);
 
         }
 
         public ActionResult Hit()
         {
-            var winnerList = gameSession.DefineWinners();
+            List<PlayerViewModel> winnerList = _gameSession.DefineWinners();
             return View("Winner", winnerList);
         }
 
         public ActionResult CheckGameHistory()
         {
-            var gameHistory = gameSession.GetGameHistory();
+            List<GameHistoryViewModel> gameHistory = _gameSession.GetGameHistory();
             return View(gameHistory);
         }
     }
