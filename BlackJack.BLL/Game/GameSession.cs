@@ -1,18 +1,18 @@
 ﻿using BlackJack.BLL.GameOptions;
+using BlackJack.BLL.Interfaces;
 using BlackJack.BLL.Mapper;
 using BlackJack.BLL.ViewModels;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BlackJack.BLL.Game
 {
-    public class GameSession
+    public class GameSession : IGameSession
     {
         IUnitOfWork _database { get; set; }
-        GameLogic _gameLogic;
+        IGameLogic _gameLogic;
         static int roundId;
 
 
@@ -22,8 +22,11 @@ namespace BlackJack.BLL.Game
             _gameLogic = gameLogic;
         }
 
+        // Registers players depending on user input
         public void RegisterPlayers(UserGameOptions userGameOptions)
         {
+            roundId = 0;
+
             _database.Players.RemoveAllPlayers();
             List<string> botNames = new List<string>() { "Bill", "John", "Trevor", "Mike", "Frank" };
 
@@ -55,6 +58,8 @@ namespace BlackJack.BLL.Game
 
             
         }
+
+        //Configures everything for game to start
         public List<PlayerViewModel> ConfigureGameOnStart()
         {
             roundId++;
@@ -67,6 +72,7 @@ namespace BlackJack.BLL.Game
             return playerViewModels;
         }
 
+        // Give cards to all players
         public List<PlayerViewModel> GiveCards()
         {
 
@@ -76,6 +82,7 @@ namespace BlackJack.BLL.Game
             return playerViewModels;
         }
 
+        // Checks whether game has already ended
         public bool CheckIfGameEnded()
         {
             // Conditions for ending the game:
@@ -114,6 +121,7 @@ namespace BlackJack.BLL.Game
             return isGameEnded;
         }
 
+        // Returns a winners' list of player view model 
         public List<PlayerViewModel> DefineWinners()
         {
             var players = _database.Players.GetAll().ToList();
@@ -143,7 +151,7 @@ namespace BlackJack.BLL.Game
         }
 
         
-
+        // Returns list of player view model using static Map class
         private List<PlayerViewModel> GetPlayerViewModels()
         {
             var playersList = _database.Players.GetAll().ToList();
@@ -162,6 +170,7 @@ namespace BlackJack.BLL.Game
             return playerViewModels;
         }
 
+        // Returns game history list
         public List<GameHistoryViewModel> GetGameHistory()
         {
             var gameHistoryList = _database.GameHistories.GetAll();

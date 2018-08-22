@@ -1,14 +1,14 @@
-﻿using BlackJack.BLL.Game;
-using BlackJack.BLL.GameOptions;
+﻿using BlackJack.BLL.GameOptions;
+using BlackJack.BLL.Interfaces;
 using System.Web.Mvc;
 
 namespace BlackJack.Controllers
 {
     public class HomeController : Controller
     {
-        private GameSession gameSession;
+        private IGameSession gameSession;
 
-        public HomeController(GameSession session)
+        public HomeController(IGameSession session)
         {
             gameSession = session;
         }

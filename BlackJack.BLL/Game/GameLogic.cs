@@ -1,4 +1,5 @@
-﻿using BlackJack.BLL.ViewModels;
+﻿using BlackJack.BLL.Interfaces;
+using BlackJack.BLL.ViewModels;
 using BlackJack.DAL.Entities;
 using BlackJack.DAL.Interfaces;
 using System;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace BlackJack.BLL.Game
 {
-    public class GameLogic
+    public class GameLogic : IGameLogic
     {
         static Random random;
 
@@ -25,6 +26,7 @@ namespace BlackJack.BLL.Game
             random = new Random();
         }
 
+        // Gives two cards for each player
         public  void GiveCardsOnStart()
         {
             var playersArray = _database.Players.GetAll().ToList();
@@ -43,6 +45,7 @@ namespace BlackJack.BLL.Game
             return isUnique;
         }
 
+        // Saves game history into GameHistories table
         public void SaveGameHistory(List<PlayerViewModel> winnerList, int roundId)
         {
             
@@ -64,6 +67,7 @@ namespace BlackJack.BLL.Game
 
         }
 
+        // Gives cards to all players using specified conditions
         public  void GiveCardsToAllPlayers()
         {
             var playersArray = _database.Players.GetAll().ToList();
@@ -91,6 +95,7 @@ namespace BlackJack.BLL.Game
             }
         }
 
+        // Gives list of cards to one specified player
         private void GiveCards(Player player, List<Card> cardsList)
         {
 
@@ -110,6 +115,6 @@ namespace BlackJack.BLL.Game
             } while (isNotOver);
         }
 
-        
+       
     }
 }

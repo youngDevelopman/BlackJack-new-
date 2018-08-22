@@ -1,4 +1,5 @@
 ﻿using BlackJack.BLL.Game;
+using BlackJack.BLL.Interfaces;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace BlackJack.Util
     {
         public override void Load()
         {
-            Bind<GameSession>().ToSelf();
-            Bind<GameLogic>().ToSelf();
+            Bind<IGameSession>().To<GameSession>();
+            Bind<IGameLogic>().To<GameLogic>();
         }
     }
 }
