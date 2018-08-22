@@ -157,7 +157,7 @@ namespace BlackJack.BLL.Game
         {
             List<Player> playersList = _database.Players.GetAll().ToList();
 
-            List<PlayerViewModel> playerViewModels = new List<PlayerViewModel>();
+            var playerViewModels = new List<PlayerViewModel>();
 
             for (int i = 0; i < playersList.Count; i++)
             {

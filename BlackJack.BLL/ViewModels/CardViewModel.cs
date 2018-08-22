@@ -12,5 +12,6 @@ namespace BlackJack.BLL.ViewModels
         public int Value { get; set; }
         public string Rank { get; set; }
         public string Suit { get; set; }
+        public string ImageSource { get; set; }
     }
 }

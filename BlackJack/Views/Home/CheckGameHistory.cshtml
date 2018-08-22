@@ -33,13 +33,8 @@
       <td>
         @foreach (var c in p.Cards)
         {
-          <br>
-          <span>@c.Id</span> 
-          <span>@c.Rank</span> 
-          <span>@c.Suit</span>
-          <span>@c.Value</span>
-          <br>
-          }
+            <img src="@Url.Content(c.ImageSource)" />
+        }
       </td>
      </tr>
 

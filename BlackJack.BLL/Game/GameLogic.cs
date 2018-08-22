@@ -52,7 +52,7 @@ namespace BlackJack.BLL.Game
             foreach (var winner in winnerList)
             {
                 var winnerCards = _database.Players.GetAllCardsFromPlayer(winner.Id) as List<Card>;
-                GameHistory currentWinner = new GameHistory()
+                var currentWinner = new GameHistory()
                 {
                     WinnerId = winner.Id,
                     RoundId = roundId,

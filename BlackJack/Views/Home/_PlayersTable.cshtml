@@ -7,6 +7,7 @@
       <th>Name</th>
       <th>Status</th>
       <th>Count</th>
+      <th>Cards</th>
     </tr>
   </thead>
   <tbody>
@@ -15,11 +16,17 @@
 
     {
 
-      <tr>
-        <td>@p.Name</td>
-        <td>@p.Status</td>
-        <td>@p.Count</td>
-      </tr>
+    <tr>
+      <td>@p.Name</td>
+      <td>@p.Status</td>
+      <td>@p.Count</td>
+      <td>
+        @foreach (var c in p.Cards)
+        {
+          <img src="@Url.Content(c.ImageSource)" />
+        }
+      </td>
+    </tr>
 
     }
   </tbody>

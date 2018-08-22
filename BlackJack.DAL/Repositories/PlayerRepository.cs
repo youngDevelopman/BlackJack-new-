@@ -24,7 +24,8 @@ namespace BlackJack.DAL.Repositories
             _db.PlayersCards.Add(new PlayerCard()
             {
                 PlayerId = tmpPlayer.Id,
-                CardId = tmpCard.Id
+                CardId = tmpCard.Id,
+                ImageSource = tmpCard.ImageSource
             });
 
             _db.SaveChanges();

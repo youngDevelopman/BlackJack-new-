@@ -15,7 +15,8 @@ namespace BlackJack.BLL.Mapper
                 Id = card.Id,
                 Suit = card.Suit,
                 Value = card.Value,
-                Rank = card.Rank
+                Rank = card.Rank,
+                ImageSource = card.ImageSource
             };
 
             return cardViewModel;
@@ -65,7 +66,8 @@ namespace BlackJack.BLL.Mapper
                 Id = player.Id,
                 Name = player.Name,
                 Status = player.Status,
-                Count = cards.Sum(c => c.Value)
+                Count = cards.Sum(c => c.Value),
+                Cards = cards
             };
 
             return playerViewModel;
