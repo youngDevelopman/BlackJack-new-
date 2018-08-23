@@ -18,8 +18,8 @@ namespace BlackJack.DAL.Repositories
 
         public void AddCard(Player player, Card card)
         {
-            var tmpPlayer = Get(player.Id);
-            var tmpCard = _db.Cards.Find(card.Id);
+            Player tmpPlayer = Get(player.Id);
+            Card tmpCard = _db.Cards.Find(card.Id);
 
             _db.PlayersCards.Add(new PlayerCard()
             {
@@ -39,7 +39,7 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            var player = _db.Players.Find(id);
+            Player player = _db.Players.Find(id);
 
             if(player != null)
             {
@@ -50,7 +50,7 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<Player> Find(Func<Player, bool> predicate)
         {
-            var playersList = _db.Players.Where(predicate);
+            IEnumerable<Player> playersList = _db.Players.Where(predicate);
             return playersList;
         }
 
@@ -64,7 +64,7 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<Player> GetAll()
         {
-            var playersList = _db.Players;
+            List<Player> playersList = _db.Players.ToList();
             return playersList;
         }
 
@@ -77,7 +77,7 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<Card> GetAllCardsFromPlayer(int id)
         {
-            var playerCardsList = _db.PlayersCards.Where(p => p.PlayerId == id).ToList();
+            List<PlayerCard> playerCardsList = _db.PlayersCards.Where(p => p.PlayerId == id).ToList();
             var cardList = new List<Card>();
 
             foreach (var item in playerCardsList.ToList())
@@ -91,7 +91,7 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<int> GetCardsIdInDeck()
         {
-            var cardList = _db.PlayersCards.Select(p => p.CardId).ToList();
+            List<int> cardList = _db.PlayersCards.Select(p => p.CardId).ToList();
             return cardList;
         }
 

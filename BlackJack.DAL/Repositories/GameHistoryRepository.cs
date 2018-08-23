@@ -24,7 +24,7 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            var round = _db.GameHistories.Find(id);
+            GameHistory round = _db.GameHistories.Find(id);
 
             if(round == null)
             {
@@ -34,19 +34,19 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<GameHistory> Find(Func<GameHistory, bool> predicate)
         {
-            var roundList = _db.GameHistories.Where(predicate);
+            IEnumerable<GameHistory> roundList = _db.GameHistories.Where(predicate);
             return roundList;
         }
 
         public GameHistory Get(int id)
         {
-           var gameHistory = _db.GameHistories.Find(id);
+           GameHistory gameHistory = _db.GameHistories.Find(id);
            return gameHistory;
         }
 
         public IEnumerable<GameHistory> GetAll()
         {
-            var gameHistoryList = _db.GameHistories.ToList();
+            List<GameHistory> gameHistoryList = _db.GameHistories.ToList();
             return gameHistoryList;
         }
 

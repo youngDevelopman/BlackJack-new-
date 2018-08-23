@@ -12,5 +12,6 @@ namespace BlackJack.BLL.Interfaces
         bool CheckIfGameEnded();
         List<PlayerViewModel> DefineWinners();
         List<GameHistoryViewModel> GetGameHistory();
+       
     }
 }

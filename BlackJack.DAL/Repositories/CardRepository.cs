@@ -24,7 +24,7 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            var card = _db.Cards.Find(id);
+            Card card = _db.Cards.Find(id);
 
             if(card != null)
             {
@@ -35,19 +35,19 @@ namespace BlackJack.DAL.Repositories
 
         public IEnumerable<Card> Find(Func<Card, bool> predicate)
         {
-            var cardsList = _db.Cards.Where(predicate);
+            IEnumerable<Card> cardsList = _db.Cards.Where(predicate);
             return cardsList;
         }
 
         public Card Get(int id)
         {
-            var card = _db.Cards.Find(id);
+            Card card = _db.Cards.Find(id);
             return card;
         }
 
         public IEnumerable<Card> GetAll()
         {
-            var cardsList = _db.Cards.ToList();
+            List<Card> cardsList = _db.Cards.ToList();
             return cardsList;
         }
 
